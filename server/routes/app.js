@@ -5,6 +5,6 @@ const router = express.Router()
 router.post('/createGroup', CreateGroup)
 router.get('/groups', GetGroup)
 router.get('/getUsers', GetUsers)
-router.delete('/deleteUser:id', DeleteUser)
+router.delete('/deleteUser/:id', DeleteUser)
 
 module.exports = router
