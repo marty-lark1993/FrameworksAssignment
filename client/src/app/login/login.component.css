@@ -1,0 +1,73 @@
+#login{
+    min-width: 80dvw;
+    min-height: 80dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.logindiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#loginform{
+    width: 60%;
+    min-height: 60%;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.loginlabel{
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.logininput{
+    font-size: larger;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+
+#loginBTN{
+    border-radius: 10px;
+    padding:12px;
+    font-size: large;
+    background-color: white;
+    margin-top: 5px;
+}
+
+#signup{
+    color: blue;
+    cursor: pointer;
+}
+
+#signupdiv{
+    min-width: 80dvw;
+    min-height: 80dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#signupform{
+    width: 60%;
+    min-height: 60%;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}

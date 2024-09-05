@@ -1,0 +1,38 @@
+<div id="login" *ngIf="login">
+<form id="loginform" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <h1 id="loginh1">Chat system</h1>
+    <div class="logindiv">
+        <label class="loginlabel" for="username">Username</label>
+        <input class="logininput" type="text" id="username" [(ngModel)]="username" name="username" placeholder="Username" required>
+    </div>
+    <div class="logindiv">
+        <label class="loginlabel" for="password">Password</label>
+        <input class="logininput" type="text" id="password" [(ngModel)]="password" name="password" placeholder="Password" required>
+    </div>
+    <button id="loginBTN" [disabled]="!loginForm.valid" type="submit">Login</button>
+    <p id="signup" (click)="newsignup()">Create an account</p>
+</form>
+<div *ngIf="loginError" class="error">
+    invalid username or password
+</div>
+</div>
+
+<div id="signupdiv" *ngIf="signup">
+    <form id="signupform" (ngSubmit)="onSignUpSubmit()" #signupform="ngForm">
+        <h1 id="loginh1">Signup</h1>
+        <div class="logindiv">
+            <label for="username" class="loginlabel">Username</label>
+            <input type="text" class="logininput" [(ngModel)]="username" placeholder="Username" name="username" required>
+        </div>
+        <div class="logindiv">
+            <label for="password" class="loginlabel">password</label>
+            <input type="text" class="logininput" [(ngModel)]="password" placeholder="Password" name="password" required>
+        </div>
+        <div class="logindiv">
+            <label for="email" class="loginlabel">Email</label>
+            <input type="text" class="logininput" [(ngModel)]="email" placeholder="email" name="email" required>
+        </div>
+        <button id="loginBTN" [disabled]="!signupform.valid" type="submit">Signup</button>
+        <p id="signup" (click)="backToLogin()">Cancel and back to login page</p>
+    </form>
+</div>

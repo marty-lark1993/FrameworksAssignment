@@ -1,0 +1,41 @@
+<header>
+    <h1 id="homeh1">Welcome (insert username)</h1>
+    <nav>
+        <ul>
+            <li (click)="logout()">Logout</li>
+            <li *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="newGroup()">Make group</li><!--super admin and group admin-->
+            <li *ngIf="user.roles === 'Super Admin'" (click)="viewUsers()">View Users</li><!--super admin-->
+        </ul>
+    </nav>
+</header>
+<div id="maincontainer">
+    <div id="groups">
+        <h3 class="heading3">Groups</h3>
+        <ul id="groupList">
+            <li class="groupLI" *ngFor="let group of user.groups"><p class="grouptxt">{{group.name}}</p></li>
+        </ul>
+    </div>
+    <div id="channels">
+        <h3 class="heading3">Channels</h3>
+    </div>
+    <div id="chat">
+        <h3 class="heading3">Chat</h3>
+    </div>
+</div>
+
+<div *ngIf="newgroupactive" id="newgroup">
+    <form (ngSubmit)="newGroupSubmit()" #groupform="ngForm">
+        <h2>Create new Group</h2>
+        <input type="text" id="groupName" [(ngModel)]="groupName" name="groupName" placeholder="Enter Group Name" required>
+        <button type="submit" [disabled]="!groupform.valid">Create group</button>
+        <button type="button" (click)="cancelGroup()">Cancel</button>
+    </form>
+</div>
+
+<div id="viewUsers" *ngIf="viewUsersActive">
+    <h3>User List</h3>
+    <ul id="viewUserList">
+        <li *ngFor="let user of usersList"><p>{{user.username}} {{user.roles}}</p><button (click)="deleteUser(user._id)">Delete</button></li>
+    </ul>
+    <button (click)="closeViewUser()">Close</button>
+</div>

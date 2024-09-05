@@ -1,0 +1,160 @@
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: khaki;
+    border-bottom: 2px solid black;
+    height: 8dvh;
+}
+
+#homeh1 {
+    padding-left: 10px;
+}
+
+header nav {
+    width: 40%;
+    display: flex;
+    justify-content: right;
+}
+
+header ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row-reverse;
+    width: 80%;
+    justify-content: space-around;
+}
+
+header ul li {
+    background-color: tan;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.5s;
+    font-weight: bold;
+}
+
+header ul li:hover {
+    transition: 0.5s;
+    transform: scale(1.1);
+}
+
+#maincontainer {
+    background-color: aqua;
+    width: 100%;
+    height: calc(100vh - 8dvh); /* Ensures the height minus header */
+    display: flex;
+    flex-direction: row;
+}
+
+#groups {
+    flex: 1;
+    background-color: blueviolet;
+}
+
+#channels {
+    flex: 1;
+    background-color: chartreuse;
+}
+
+#chat {
+    flex: 3;
+    background-color: darkorange;
+}
+
+.heading3{
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    border-bottom: 1px solid black;
+    background-color: tan;
+    border-left: 1px solid black;
+}
+
+
+#newgroup{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    width: 40%;
+    height: 30%
+}
+
+#newgroup form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#newgroup form input{
+    width: 50%;
+    font-size: large;
+    padding: 10px;
+}
+
+#newgroup form button{
+    width: 50%;
+    font-size: large;
+    padding: 10px;
+    background-color: white;
+    margin-top: 5px;
+}
+
+#groupList{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.groupLI{
+    padding: 20px;
+    border: 1px solid black;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.grouptxt{
+    margin: 0px;
+    transition: 0.5s;
+}
+
+.groupLI:hover{
+
+    .grouptxt{
+        transform: scale(1.1);
+        transition: 0.5s;
+    }
+
+}
+
+
+#viewUsers{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    width: 40%;
+    height: 30%
+}

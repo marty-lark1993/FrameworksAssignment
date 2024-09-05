@@ -1,15 +1,45 @@
+// used to authenticate users by checking against the mongo database
+
 const User = require('./data/user')
 
-const authenticateUser = async(res, req) => {
-    const {username, password} = req.body
-
-    const user = await User.findOne({username})
+// Authenticate user
+const authenticateUser = async(req, res) => {
+    const {username, password} = req.body // user entered username and password recieved
+    console.log("log in request recieved")
+    const user = await User.findOne({username}) // checks the database for username matching entered data
     
     if (!user || user.password !== password){
-        return res.status(400).json({message:"invalid username or password"})
+        console.log("log in request not successful")
+        return res.status(400).json({message:"invalid username or password"}) // if no user found return failed status code
     }
 
-    res.json({roles: user.roles})
+    res.json({roles: user.roles, username: user.username, userID:user._id}) // if success return the users role
+    console.log(`log in request successful user: ${username} password: ${password}`)
 }
 
-module.exports = authenticateUser
+// register new user
+const registerUser = async (req, res) => {
+    const {username, password, email} = req.body
+
+    try{
+        const existingUser = await User.findOne({username})
+        if(existingUser){
+            return res.status(400).json({message:"username already exists"})
+        }
+
+        const newUser = new User({
+            username,
+            password,
+            email,
+            roles:'user'
+        })
+
+        await newUser.save()
+        res.status(201).json({message:"new user created successfully", user:newUser})
+    } catch (error) {
+        console.error("Error creating new user:", error.message)
+        res.status(500).json({message:"error creating new user", error})
+    }
+}
+
+module.exports = {authenticateUser, registerUser}
