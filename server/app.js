@@ -39,7 +39,7 @@ const GetGroup = async (req, res) => {
             return res.status(400).json({ message: 'User ID is required' });
         }
         
-        const groups = await Group.find({ members: userId });
+        const groups = await Group.find({ members: userId }).populate('channels').exec();
         res.json(groups);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching groups', error });
@@ -68,4 +68,38 @@ const DeleteUser = async (req, res)=>{
     }
 }
 
-module.exports = {CreateGroup, GetGroup, GetUsers, DeleteUser}
+// create a new channel within a group
+const CreateChannel = async (req, res) => {
+    const { groupId, channelName, userId } = req.body;
+
+    console.log("Group ID:", groupId, channelName, userId); 
+
+    try {
+        // Find the group by its ID
+        const group = await Group.findById(groupId);
+        if (!group) {
+            return res.status(404).json({ message: 'Group not found' });
+        }
+
+        // Create a new channel
+        const newChannel = new Channel({
+            name: channelName,
+            group: groupId,
+            members: [userId] // Add the user creating the channel as a member
+        });
+
+        // Save the new channel
+        const savedChannel = await newChannel.save();
+
+        // Add the channel to the group's channels array
+        group.channels.push(savedChannel._id);
+        await group.save();
+
+        // Respond with success
+        res.status(201).json({ message: 'Channel created successfully', group });
+    } catch (error) {
+        res.status(500).json({ message: 'Error creating channel', error });
+    }
+};
+
+module.exports = {CreateGroup, GetGroup, GetUsers, DeleteUser, CreateChannel}

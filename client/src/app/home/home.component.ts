@@ -20,6 +20,9 @@ export class HomeComponent {
   groupName:string = ''
   usersList:any[] = []
   viewUsersActive:boolean = false
+  newChannelActive: boolean = false;
+  channelName: string = '';
+  currentGroupId: string = '';
 
 
   constructor(private router: Router, private http:HttpClient){
@@ -112,4 +115,37 @@ export class HomeComponent {
     this.viewUsersActive = false
   }
 
+  //add channel functionality
+
+  addChannelToGroup(groupId: string) {
+    this.newChannelActive = true;
+    this.currentGroupId = groupId;
+  }
+
+  cancelChannel() {
+    this.newChannelActive = false;
+    this.channelName = '';
+  }
+
+    // Submit new channel request
+    newChannelSubmit() {
+
+      this.http.post('http://localhost:3000/api/app/createChannel', {
+        groupId: this.currentGroupId,
+        channelName: this.channelName,
+        userId: this.user.userID
+      })
+      .subscribe({
+        next: (response: any) => {
+          console.log("Channel created", response);
+          // Find the group and add the new channel
+          const group = this.user.groups.find((g: any) => g._id === this.currentGroupId);
+          group.channels.push(response.group.channels[response.group.channels.length - 1]);
+          this.cancelChannel();
+        },
+        error: (error) => {
+          console.error("error creating channel: ", error);
+        }
+      });
+    }
 }
