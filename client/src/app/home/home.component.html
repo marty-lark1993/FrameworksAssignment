@@ -1,10 +1,12 @@
 <header>
-    <h1 id="homeh1">Welcome (insert username)</h1>
+    <h1 id="homeh1">Welcome {{user.username}}</h1>
     <nav>
         <ul>
             <li (click)="logout()">Logout</li>
             <li *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="newGroup()">Make group</li><!--super admin and group admin-->
             <li *ngIf="user.roles === 'Super Admin'" (click)="viewUsers()">View Users</li><!--super admin-->
+            <li *ngIf="user.roles === 'user'" (click)="groupaccess()">Request group access</li>
+            <li *ngIf="user.roles === 'Super Admin'" (click)="openRequest()">Pending Group Requests</li>
         </ul>
     </nav>
 </header>
@@ -17,17 +19,20 @@
                 <ul>
                     <li *ngFor="let channel of group.channels">
                         <p>{{channel.name}}</p>
+                        <button *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="deleteChannel(group._id, channel._id)">Delete</button>
                     </li>
                 </ul>
-                <button (click)="addChannelToGroup(group._id)">Add channel</button>
+                <button *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="addChannelToGroup(group._id)">Add channel</button>
+                <button *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="deleteGroup(group._id)">Delete group</button>
             </li>
         </ul>
     </div>
-    <div id="channels">
-        <h3 class="heading3">Channels</h3>
-    </div>
     <div id="chat">
         <h3 class="heading3">Chat</h3>
+        <div class="chatfunctionality">
+            <textarea name="ChatArea" id="ChatArea"></textarea>
+            <button>Send</button>
+        </div>
     </div>
 </div>
 
@@ -56,3 +61,25 @@
         <button type="button" (click)="cancelChannel()">Cancel</button>
     </form>
 </div>
+
+<div id="requestaccess" *ngIf="groupAccessWindow">
+    <h2>Groups:</h2>
+    <ul>
+        <li *ngFor="let group of availableGroups">{{group.name}} <button (click)="requestGroupAccess(group._id)">Request Access</button></li>
+    </ul>
+    <button (click)="cancelAccessWindow()">Close</button>
+</div>
+
+<div id="pendingRequests" *ngIf="pendingRequestWindow">
+    <h3>Pending Group Access Requests</h3>
+    <div *ngFor="let group of user.groups">
+      <h4>{{ group.name }} - Pending Requests</h4>
+      <ul>
+        <li *ngFor="let userId of group.pendingRequests">
+          {{userId}} 
+          <button (click)="approveRequest(group._id, userId)">Approve</button>
+          <button (click)="denyRequest(group._id, userId)">Deny</button>
+        </li>
+      </ul>
+    </div>
+  </div>

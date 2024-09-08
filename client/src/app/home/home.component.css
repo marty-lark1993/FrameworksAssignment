@@ -61,12 +61,16 @@ header ul li:hover {
 #chat {
     flex: 3;
     background-color: darkorange;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center
 }
 
 .heading3{
     width: 100%;
-    margin: auto;
     display: flex;
+    margin: 0px;
     justify-content: center;
     padding: 5px;
     border-bottom: 1px solid black;
@@ -170,4 +174,43 @@ header ul li:hover {
     border-radius: 8px;
     width: 40%;
     height: 30% 
+}
+
+.chatfunctionality{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+    background-color: khaki;
+}
+
+.chatfunctionality textarea{
+    width: 90%;
+    font-size: medium;
+}
+
+#requestaccess{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    width: 40%;
+    height: 30%
+}
+
+#pendingRequests{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    width: 40%;
+    height: 30%
 }

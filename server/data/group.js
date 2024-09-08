@@ -6,7 +6,8 @@ const groupSchema = new mongoose.Schema({
     name:{type:String, required:true, unique:true},
     admin: {type: mongoose.Schema.Types.ObjectId, ref:'User'},
     channels:[{type:mongoose.Schema.Types.ObjectId, ref:'Channel'}],
-    members: [{type:mongoose.Schema.Types.ObjectId, ref: 'User'}]
+    members: [{type:mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    pendingRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 })
 
 const Group = mongoose.model('Group', groupSchema)
