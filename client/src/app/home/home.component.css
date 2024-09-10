@@ -1,15 +1,17 @@
+/** header **/
 header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background-color: khaki;
+    background-color: #2c3e50;
     border-bottom: 2px solid black;
     height: 8dvh;
 }
 
 #homeh1 {
     padding-left: 10px;
+    color: white;
 }
 
 header nav {
@@ -27,12 +29,13 @@ header ul {
 }
 
 header ul li {
-    background-color: tan;
-    padding: 12px;
+    background-color: #4A90E2;
+    padding: 10px;
     border-radius: 10px;
     cursor: pointer;
     transition: 0.5s;
     font-weight: bold;
+    color: #2c3e50;
 }
 
 header ul li:hover {
@@ -41,26 +44,22 @@ header ul li:hover {
 }
 
 #maincontainer {
-    background-color: aqua;
     width: 100%;
     height: calc(100vh - 8dvh); /* Ensures the height minus header */
     display: flex;
     flex-direction: row;
 }
 
+/** group area **/
 #groups {
     flex: 1;
-    background-color: blueviolet;
+    background-color: #4A90E2;
 }
 
-#channels {
-    flex: 1;
-    background-color: chartreuse;
-}
 
 #chat {
     flex: 3;
-    background-color: darkorange;
+    background-color: #F7ECD5;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -74,11 +73,11 @@ header ul li:hover {
     justify-content: center;
     padding: 5px;
     border-bottom: 1px solid black;
-    background-color: tan;
+    background-color: #F7ECD5;
     border-left: 1px solid black;
 }
 
-
+/** new group menu **/
 #newgroup{
     position: fixed;
     top: 50%;
@@ -113,6 +112,7 @@ header ul li:hover {
     margin-top: 5px;
 }
 
+/** group area **/
 #groupList{
     list-style: none;
     margin: 0px;
@@ -124,10 +124,11 @@ header ul li:hover {
 }
 
 .groupLI{
-    padding: 20px;
+    padding: 10px;
     border: 1px solid black;
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: large;
@@ -137,19 +138,31 @@ header ul li:hover {
 
 .grouptxt{
     margin: 0px;
-    transition: 0.5s;
+    font-weight: bold;
+    font-size: larger;
 }
 
-.groupLI:hover{
-
-    .grouptxt{
-        transform: scale(1.1);
-        transition: 0.5s;
-    }
-
+#channelHeading{
+    margin: 0px;
 }
 
+.channelList{
+    list-style: none;
+    margin: none;
+    width: 80%;
+}
 
+.channelListItem{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.channelListItem p{
+    margin: 0px;
+}
+
+/** View users menu **/
 #viewUsers{
     position: fixed;
     top: 50%;
@@ -160,9 +173,48 @@ header ul li:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     width: 40%;
-    height: 30%
+    height: 30%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+#viewUserClose{
+    width: 50%;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+#viewUserList{
+    width: 80%;
+    list-style: none;
+}
+
+#viewUserList li{
+    border: 1px solid black;
+    margin: 2px;
+    border-radius: 10px;
+}
+#viewUserList button {
+    width: 50%;
+    border-radius: 10px;
+    padding: 5px;
+    transition: 0.5s;
+}
+
+#viewUserUpgrade:hover{
+    background-color: lightgreen;
+    transition: 0.5s;
+}
+
+#viewUserDelete:hover{
+    background-color: red;
+    transition: 0.5s;
+}
+
+/** new Channel menu **/
 #newchannel{
     position: fixed;
     top: 50%;
@@ -176,12 +228,34 @@ header ul li:hover {
     height: 30% 
 }
 
+#newchannel form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#newchannel form input{
+    width: 50%;
+    font-size: large;
+    padding: 10px;
+}
+
+#newchannel form button{
+    width: 50%;
+    font-size: large;
+    padding: 10px;
+    background-color: white;
+    margin-top: 5px;
+}
+
+/** chat functionality **/
 .chatfunctionality{
     width: 100%;
     display: flex;
     justify-content: space-around;
     padding: 5px;
-    background-color: khaki;
+    background-color: #4A90E2;
 }
 
 .chatfunctionality textarea{
@@ -189,6 +263,7 @@ header ul li:hover {
     font-size: medium;
 }
 
+/** request access menu **/
 #requestaccess{
     position: fixed;
     top: 50%;
@@ -199,9 +274,34 @@ header ul li:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     width: 40%;
-    height: 30%
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow-y: scroll;
 }
 
+#requestaccess ul{
+    list-style: none;
+    width: 80%;
+}
+
+#requestaccess li{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+#requestaccessclose{
+    width: 50%;
+    padding: 8px;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+/** pending access menu **/
 #pendingRequests{
     position: fixed;
     top: 50%;
@@ -212,5 +312,80 @@ header ul li:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     width: 40%;
-    height: 30%
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+} 
+
+#pendingRequests ul{
+    list-style: none;
+}
+
+#pendingRequestClose{
+    width: 50%;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 600px){
+    header{
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        width: 100%;
+    }
+
+    #homeh1{
+        margin: 1px;
+    }
+
+    header nav{
+        width: 100%;
+        justify-content: space-between;
+        height: 10px;
+    }
+
+    header ul{
+        justify-content: space-between;
+        width: 100%;
+        margin: 1px;
+    }
+
+    header ul li{
+        padding: 0px;
+        border: none;
+        color: white;
+    }
+
+    /** make group menu **/
+    #newgroup{
+        width:90%;
+        height: 50%;
+    }
+
+    /** view users menu **/
+    #viewUsers{
+        width: 90%;
+        height: 60%;
+    }
+
+    /** Pending group request **/
+    #pendingRequests{
+        width: 90%;
+        height: 60%;
+    }
+
+    /** add chanel menu **/
+    #newchannel{
+        width: 90%;
+        height: 50%;
+    }
+
+    /** request group access **/
+    #requestaccess{
+        width: 90%;
+        height: 60%;
+    }
 }

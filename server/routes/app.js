@@ -1,5 +1,5 @@
 const express = require('express')
-const {CreateGroup, GetGroup, GetUsers, DeleteUser, CreateChannel, DeleteChannel, GetAvailableGroups, RequestGroupAccess,ApproveOrDenyGroupAccess, DeleteGroup} = require('../app')
+const {CreateGroup, GetGroup, GetUsers, DeleteUser, CreateChannel, DeleteChannel, GetAvailableGroups, RequestGroupAccess,ApproveOrDenyGroupAccess, DeleteGroup,UpgradeToAdmin} = require('../app')
 const router = express.Router()
 
 router.post('/createGroup', CreateGroup)
@@ -12,5 +12,6 @@ router.get('/availableGroups', GetAvailableGroups);
 router.post('/requestAccess', RequestGroupAccess);
 router.post('/approveOrDenyAccess', ApproveOrDenyGroupAccess);
 router.delete('/deleteGroup/:groupId', DeleteGroup)
+router.put('/upgradeToAdmin', UpgradeToAdmin)
 
 module.exports = router

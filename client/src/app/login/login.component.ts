@@ -14,15 +14,16 @@ import { json } from 'body-parser';
 })
 export class LoginComponent {
 
-  username:string = ""
-  password:string = ""
-  email:string = ""
-  loginError:boolean = false
-  login:boolean = true
-  signup:boolean = false
+  username:string = "" // stores username
+  password:string = "" // stores password
+  email:string = "" // stores email
+  loginError:boolean = false // controls visability of login error
+  login:boolean = true // controls visability of login screen
+  signup:boolean = false // controls visability of sign up screen
 
   constructor(private router: Router, private http:HttpClient){}
 
+  // submits user inputed login info for validation
   onSubmit(){
     console.log(`submitted username: ${this.username} password ${this.password}`)
     this.http.post<any>('http://localhost:3000/api/auth/login', {username:this.username, password:this.password})
@@ -40,16 +41,19 @@ export class LoginComponent {
     })
   }
 
+  // switches from rendering login to signup
   newsignup(){
     this.login = false
     this.signup = true
   }
 
+  // switches from rendering signup to login
   backToLogin(){
     this.login = true
     this.signup = false
   }
 
+  // submits user entered information for signing up a new user, forwards to home screen
   onSignUpSubmit(){
     console.log(`submitted sign up request with these details: username: ${this.username}, password: ${this.password}, email: ${this.email}`)
 

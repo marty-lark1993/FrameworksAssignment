@@ -4,8 +4,8 @@
         <ul>
             <li (click)="logout()">Logout</li>
             <li *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="newGroup()">Make group</li><!--super admin and group admin-->
-            <li *ngIf="user.roles === 'Super Admin'" (click)="viewUsers()">View Users</li><!--super admin-->
-            <li *ngIf="user.roles === 'user'" (click)="groupaccess()">Request group access</li>
+            <li *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="viewUsers()">View Users</li><!--super admin-->
+            <li *ngIf="user.roles === 'user' || user.roles === 'admin'" (click)="groupaccess()">Request group access</li>
             <li *ngIf="user.roles === 'Super Admin'" (click)="openRequest()">Pending Group Requests</li>
         </ul>
     </nav>
@@ -16,14 +16,15 @@
         <ul id="groupList">
             <li class="groupLI" *ngFor="let group of user.groups">
                 <p class="grouptxt">{{group.name}}</p>
-                <ul>
-                    <li *ngFor="let channel of group.channels">
+                <p id="channelHeading">Channels:</p>
+                <ul class="channelList">
+                    <li class="channelListItem" *ngFor="let channel of group.channels">
                         <p>{{channel.name}}</p>
-                        <button *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="deleteChannel(group._id, channel._id)">Delete</button>
+                        <button id="viewUserDelete" *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="deleteChannel(group._id, channel._id)">Delete</button>
                     </li>
                 </ul>
-                <button *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="addChannelToGroup(group._id)">Add channel</button>
-                <button *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="deleteGroup(group._id)">Delete group</button>
+                <button id="viewUserUpgrade" *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="addChannelToGroup(group._id)">Add channel</button>
+                <button id="viewUserDelete" *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="deleteGroup(group._id)">Delete group</button>
             </li>
         </ul>
     </div>
@@ -48,9 +49,12 @@
 <div id="viewUsers" *ngIf="viewUsersActive">
     <h3>User List</h3>
     <ul id="viewUserList">
-        <li *ngFor="let user of usersList"><p>{{user.username}} {{user.roles}}</p><button (click)="deleteUser(user._id)">Delete</button></li>
+        <li *ngFor="let user of usersList"><p>User Name:{{user.username}} <br> User Type:{{user.roles}}</p>
+            <button id="viewUserUpgrade" (click)="upgradeToAdmin(user._id)">Upgrade to admin</button>
+            <button id="viewUserDelete" (click)="deleteUser(user._id)">Delete</button>
+        </li>
     </ul>
-    <button (click)="closeViewUser()">Close</button>
+    <button id="viewUserClose" (click)="closeViewUser()">Close</button>
 </div>
 
 <div *ngIf="newChannelActive" id="newchannel">
@@ -67,7 +71,7 @@
     <ul>
         <li *ngFor="let group of availableGroups">{{group.name}} <button (click)="requestGroupAccess(group._id)">Request Access</button></li>
     </ul>
-    <button (click)="cancelAccessWindow()">Close</button>
+    <button id="requestaccessclose" (click)="cancelAccessWindow()">Close</button>
 </div>
 
 <div id="pendingRequests" *ngIf="pendingRequestWindow">
@@ -77,9 +81,10 @@
       <ul>
         <li *ngFor="let userId of group.pendingRequests">
           {{userId}} 
-          <button (click)="approveRequest(group._id, userId)">Approve</button>
-          <button (click)="denyRequest(group._id, userId)">Deny</button>
+          <button id="viewUserUpgrade" (click)="approveRequest(group._id, userId)">Approve</button>
+          <button id="viewUserDelete" (click)="denyRequest(group._id, userId)">Deny</button>
         </li>
       </ul>
     </div>
+    <button id="pendingRequestClose" (click)="closeRequest()">Close</button>
   </div>

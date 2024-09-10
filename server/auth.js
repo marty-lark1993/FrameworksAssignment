@@ -19,14 +19,15 @@ const authenticateUser = async(req, res) => {
 
 // register new user
 const registerUser = async (req, res) => {
-    const {username, password, email} = req.body
+    const {username, password, email} = req.body // user entered details stored
 
     try{
-        const existingUser = await User.findOne({username})
+        const existingUser = await User.findOne({username}) // checks to see if this user exists
         if(existingUser){
             return res.status(400).json({message:"username already exists"})
         }
 
+        // uses model for user to create a new user
         const newUser = new User({
             username,
             password,
@@ -34,7 +35,7 @@ const registerUser = async (req, res) => {
             roles:'user'
         })
 
-        await newUser.save()
+        await newUser.save() // saves user
         res.status(201).json({message:"new user created successfully", user:newUser})
     } catch (error) {
         console.error("Error creating new user:", error.message)

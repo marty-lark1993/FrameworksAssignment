@@ -6,7 +6,8 @@ const { application } = require('express');
 
 // creates new group
 const CreateGroup = async(req, res)=>{
-    const {name} = req.body;
+    const {name} = req.body; // stores name of group
+    const superuserID = '66d71611e0a1fc7403cf5d85' // super user id to ensure super user is included in all groups
     console.log(req.body.user.userID); // Debugging output
 
     try {
@@ -19,8 +20,8 @@ const CreateGroup = async(req, res)=>{
         // Create a new group
         const newGroup = new Group({
             name,
-            admin: req.body.user.userID, // Assume req.user contains the authenticated user's info
-            members: [req.body.user.userID] // Automatically add the admin as the first member
+            admin: req.body.user.userID, // add user as admin
+            members: [req.body.user.userID, superuserID] // Automatically add the admin as the first member and super user
         });
 
         await newGroup.save();
@@ -39,7 +40,7 @@ const GetGroup = async (req, res) => {
             return res.status(400).json({ message: 'User ID is required' });
         }
         
-        const groups = await Group.find({ members: userId }).populate('channels').exec();
+        const groups = await Group.find({ members: userId }).populate('channels').exec(); // finds groups containing that user id
         res.json(groups);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching groups', error });
@@ -49,7 +50,7 @@ const GetGroup = async (req, res) => {
 // get all users
 const GetUsers = async (req, res) =>{
     try{
-        const users= await User.find()
+        const users= await User.find() // gets list of users
         res.status(200).json(users)
     } catch (error) {
         res.status(500).json({message: 'error fetching users: ', error})
@@ -190,6 +191,7 @@ const ApproveOrDenyGroupAccess = async (req, res) => {
     }
 };
 
+// delete group
 const DeleteGroup = async (req, res) => {
     const { groupId } = req.params;
 
@@ -206,4 +208,25 @@ const DeleteGroup = async (req, res) => {
   }
 }
 
-module.exports = {CreateGroup, GetGroup, GetUsers, DeleteUser, CreateChannel, DeleteChannel, GetAvailableGroups, RequestGroupAccess, ApproveOrDenyGroupAccess, DeleteGroup}
+// allows super user to upgrade user to admin
+const UpgradeToAdmin = async (req, res)=>{
+    const { userID } = req.body;
+    console.log(userID)
+
+    try {
+      // Find the user by ID and update their role to 'admin'
+      const user = await User.findById(userID);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      user.roles = 'admin';  // Set the user's role to admin
+      await user.save();
+  
+      res.status(200).json({ message: 'User upgraded to admin successfully' });
+    } catch (error) {
+      res.status(500).json({ message: 'Error upgrading user to admin', error });
+    }
+  }
+
+module.exports = {CreateGroup, GetGroup, GetUsers, DeleteUser, CreateChannel, DeleteChannel, GetAvailableGroups, RequestGroupAccess, ApproveOrDenyGroupAccess, DeleteGroup, UpgradeToAdmin}

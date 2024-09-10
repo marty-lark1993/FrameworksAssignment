@@ -15,39 +15,43 @@ import { response } from 'express';
 })
 export class HomeComponent {
 
-  user:any = {groups:[]}
-  newgroupactive:boolean = false
-  groupName:string = ''
-  usersList:any[] = []
-  viewUsersActive:boolean = false
-  newChannelActive: boolean = false;
-  channelName: string = '';
-  currentGroupId: string = '';
-  groupAccessWindow:boolean = false
-  availableGroups: any[] = [];
-  pendingRequestWindow:boolean = false
+  user:any = {groups:[]} // object to store current user data
+  newgroupactive:boolean = false // controls visability of new group menu
+  groupName:string = '' // stores name of new group
+  usersList:any[] = [] //list of users
+  viewUsersActive:boolean = false // controls visability of view users menu
+  newChannelActive: boolean = false; // controls visability of new channel menu
+  channelName: string = ''; // holds value for new channel name
+  currentGroupId: string = ''; // stores group id
+  groupAccessWindow:boolean = false // controls visability of group access menu
+  availableGroups: any[] = []; // stores array of avaliable groups
+  pendingRequestWindow:boolean = false // controls visability of pending request menu
 
 
   constructor(private router: Router, private http:HttpClient){
     const userData = sessionStorage.getItem('user')
+    // retrieve user data from session storage if its avaliable
     if(userData){
       this.user = JSON.parse(userData)
       console.log(this.user)
-      //this.getGroups()
+      this.getGroups()
     }
   }
 
+  // logs user out and clears the session data
   logout(){
     this.router.navigate(['login'])
     sessionStorage.removeItem('user')
     sessionStorage.clear()
   }
 
+  // activates new group creation form
   newGroup(){
     this.newgroupactive=true
     console.log('yes')
   }
 
+  // cancels new group creation form
   cancelGroup(){
     this.newgroupactive=false
     this.groupName=''
@@ -115,6 +119,7 @@ export class HomeComponent {
       });
   }
 
+  // close view user menu
   closeViewUser(){
     this.viewUsersActive = false
   }
@@ -126,6 +131,7 @@ export class HomeComponent {
     this.currentGroupId = groupId;
   }
 
+  // closes new chanel creation
   cancelChannel() {
     this.newChannelActive = false;
     this.channelName = '';
@@ -146,6 +152,7 @@ export class HomeComponent {
           const group = this.user.groups.find((g: any) => g._id === this.currentGroupId);
           group.channels.push(response.group.channels[response.group.channels.length - 1]);
           this.cancelChannel();
+          this.getGroups()
         },
         error: (error) => {
           console.error("error creating channel: ", error);
@@ -153,6 +160,7 @@ export class HomeComponent {
       });
     }
 
+    // submits a request to delete channel
     deleteChannel(groupId: string, channelId: string) {
       console.log(groupId, channelId)
       if (confirm("Are you sure you want to delete this channel?")) {
@@ -218,7 +226,7 @@ export class HomeComponent {
 
     // close request window
     closeRequest(){
-      this.pendingRequestWindow = true
+      this.pendingRequestWindow = false
     }
 
     // get pending requests for super admin
@@ -273,4 +281,19 @@ export class HomeComponent {
         }
       })
     }
+
+  //upgrade user to admin
+  upgradeToAdmin(userID:string){
+    console.log(userID);
+    this.http.put('http://localhost:3000/api/app/upgradeToAdmin', { userID })
+      .subscribe({
+        next: (response: any) => {
+          console.log(response.message);
+          this.viewUsers();  // Refresh the user list after upgrade
+        },
+        error: (error) => {
+          console.error('Error upgrading user to admin:', error);
+        }
+      });
+}
 }
