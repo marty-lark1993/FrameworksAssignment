@@ -21,7 +21,7 @@
                 <p class="grouptxt">{{group.name}}</p>
                 <p id="channelHeading">Channels:</p>
                 <ul class="channelList">
-                    <li class="channelListItem" *ngFor="let channel of group.channels">
+                    <li class="channelListItem" *ngFor="let channel of group.channels" (click)="setChannelID(channel._id)">
                         <p>{{channel.name}}</p>
                         <button id="viewUserDelete" *ngIf="user.roles === 'admin'|| user.roles === 'Super Admin'" (click)="deleteChannel(group._id, channel._id)">Delete</button>
                     </li>
@@ -33,9 +33,14 @@
     </div>
     <div id="chat">
         <h3 class="heading3">Chat</h3>
+        <div class="chatMessages">
+            <div *ngFor="let msg of messages">
+              <strong>{{msg.userId}}:</strong> {{msg.text}}
+            </div>
+          </div>
         <div class="chatfunctionality">
-            <textarea name="ChatArea" id="ChatArea"></textarea>
-            <button>Send</button>
+            <textarea [(ngModel)]="message" placeholder="type your message here" name="ChatArea" id="ChatArea"></textarea>
+            <button (click)="sendMessage(setCurrentChannelID, message)">Send</button>
         </div>
     </div>
 </div>

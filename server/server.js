@@ -12,7 +12,11 @@ const path = require("path")
 const setupSocketIO = require("./sockets")
 
 // set up 
-app.use(cors())
+app.use(cors({
+  origin:'http://localhost:4200',
+  methods:["GET","POST"],
+  credentials:true
+}))
 app.use(express.static(__dirname+"/www"))
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

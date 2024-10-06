@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
 @Injectable({
@@ -13,11 +14,16 @@ export class SocketService {
   }
 
   // Emit a message to the server
-  sendMessage(channelId: string, text: string) {
-    const message = {
-      channelId,
-      text
-    };
+  // sendMessage(channelId: string, text: string) {
+  //   const message = {
+  //     channelId,
+  //     text
+  //   };
+  //   this.socket.emit('sendMessage', message);
+  // }
+
+  sendMessage(message: { text: string; userId: string; channelId: string }) {
+    console.log(`Sending message to channel: ${message.channelId}`, message);
     this.socket.emit('sendMessage', message);
   }
 
@@ -28,7 +34,7 @@ export class SocketService {
 
   // Listen for incoming messages
   onMessage() {
-    return new Observable((observer) => {
+    return new Observable((observer:any) => {
       this.socket.on('receiveMessage', (message) => {
         observer.next(message);
       });
@@ -37,7 +43,7 @@ export class SocketService {
 
   // Listen for a user joining a channel
   onUserJoined() {
-    return new Observable((observer) => {
+    return new Observable((observer:any) => {
       this.socket.on('userJoined', (user) => {
         observer.next(user);
       });
@@ -46,7 +52,7 @@ export class SocketService {
 
   // Listen for a user leaving a channel
   onUserLeft() {
-    return new Observable((observer) => {
+    return new Observable((observer:any) => {
       this.socket.on('userLeft', (user) => {
         observer.next(user);
       });

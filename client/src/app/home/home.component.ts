@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { json } from 'body-parser';
 import { response } from 'express';
 import {io} from 'socket.io-client'
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'app-home',
@@ -27,9 +28,12 @@ export class HomeComponent {
   groupAccessWindow:boolean = false // controls visability of group access menu
   availableGroups: any[] = []; // stores array of avaliable groups
   pendingRequestWindow:boolean = false // controls visability of pending request menu
+  message:any = ""// stores message
+  messages:any[]=[] //stores chat log
+  setCurrentChannelID:any = ""//current chanel id
 
 
-  constructor(private router: Router, private http:HttpClient){
+  constructor(private router: Router, private http:HttpClient, private socketService: SocketService){
     const userData = sessionStorage.getItem('user')
     // retrieve user data from session storage if its avaliable
     if(userData){
@@ -37,6 +41,11 @@ export class HomeComponent {
       console.log(this.user)
       this.getGroups()
     }
+    // listen for incoming messages
+    this.socketService.onMessage().subscribe((message:any)=>{
+      console.log("message recieved: ", message)
+      this.messages.push(message)
+    })
   }
 
   // logs user out and clears the session data
@@ -44,6 +53,7 @@ export class HomeComponent {
     this.router.navigate(['login'])
     sessionStorage.removeItem('user')
     sessionStorage.clear()
+    this.socketService.ngOnDestroy()
   }
 
   // activates new group creation form
@@ -297,4 +307,36 @@ export class HomeComponent {
         }
       });
 }
+
+  //sets current channel id for IO
+  setChannelID(channelID:any){
+    this.setCurrentChannelID = channelID
+    this.joinChannel(channelID)
+  }
+
+  // socket code
+  // send message
+  // sendMessage(channelId:string, message:any){
+  //   console.log(message, channelId)
+  //   this.socketService.sendMessage(channelId, message)
+  //   this.message=""
+
+  // }
+    // Send message to the current channel
+    sendMessage(channelId: string, message: string) {
+      if (message.trim()) {
+        console.log(`Sending message: ${message} to channel: ${channelId}`);
+        this.socketService.sendMessage({ text: message, userId: this.user.userID, channelId });
+        this.message = ""; // Clear the input field after sending
+        console.log(this.messages)
+      }
+    }
+  
+
+  //join channel
+  joinChannel(channelId:string){
+    console.log("joining channel: ", channelId)
+    this.socketService.joinChannel(channelId)
+  }
+
 }

@@ -1,7 +1,13 @@
 const socketIO = require("socket.io");
 
 const setupSocketIO = (server) => {
-    const io = socketIO(server);
+    const io = socketIO(server, {
+        cors: {
+          origin: "http://localhost:4200",  // Allow your Angular frontend's origin
+          methods: ["GET", "POST"],         // Allow these HTTP methods
+          credentials: true                 // Allow credentials (cookies, headers)
+        }
+      });
 
     io.on("connection", (socket) => {
         console.log("A user connected: ", socket.id);
