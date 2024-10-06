@@ -20,6 +20,7 @@ export class LoginComponent {
   loginError:boolean = false // controls visability of login error
   login:boolean = true // controls visability of login screen
   signup:boolean = false // controls visability of sign up screen
+  avatar:File | null = null
 
   constructor(private router: Router, private http:HttpClient){}
 
@@ -53,11 +54,30 @@ export class LoginComponent {
     this.signup = false
   }
 
+    // Handles file input change event to store selected file
+    onFileSelected(event: any) {
+      const file: File = event.target.files[0];
+      if (file) {
+        this.avatar = file;
+      }
+    }
+
   // submits user entered information for signing up a new user, forwards to home screen
   onSignUpSubmit(){
     console.log(`submitted sign up request with these details: username: ${this.username}, password: ${this.password}, email: ${this.email}`)
 
-    this.http.post<any>('http://localhost:3000/api/auth/signup', {username:this.username, password:this.password, email:this.email})
+    if (!this.avatar) {
+      console.error('Avatar file is required');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('username', this.username);
+    formData.append('password', this.password);
+    formData.append('email', this.email);
+    formData.append('avatar', this.avatar); // Attach avatar file
+
+    this.http.post<any>('http://localhost:3000/api/auth/signup', formData)
     .subscribe({
       next:(user)=>{
         sessionStorage.setItem('user',JSON.stringify(user))

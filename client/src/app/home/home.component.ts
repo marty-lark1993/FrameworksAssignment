@@ -5,6 +5,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { json } from 'body-parser';
 import { response } from 'express';
+import {io} from 'socket.io-client'
 
 @Component({
   selector: 'app-home',

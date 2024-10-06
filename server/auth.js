@@ -13,13 +13,14 @@ const authenticateUser = async(req, res) => {
         return res.status(400).json({message:"invalid username or password"}) // if no user found return failed status code
     }
 
-    res.json({roles: user.roles, username: user.username, userID:user._id}) // if success return the users role
+    res.json({roles: user.roles, username: user.username, userID:user._id, avatar: user.avatar}) // if success return the users role
     console.log(`log in request successful user: ${username} password: ${password}`)
 }
 
 // register new user
 const registerUser = async (req, res) => {
     const {username, password, email} = req.body // user entered details stored
+    const avatarPath = req.file ? req.file.path : null 
 
     try{
         const existingUser = await User.findOne({username}) // checks to see if this user exists
@@ -32,7 +33,8 @@ const registerUser = async (req, res) => {
             username,
             password,
             email,
-            roles:'user'
+            roles:'user',
+            avatar:avatarPath
         })
 
         await newUser.save() // saves user

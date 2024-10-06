@@ -9,9 +9,22 @@ header {
     height: 8dvh;
 }
 
+.headerAvatar{
+    display: flex;
+    flex-direction: row;
+}
+
+.avatarIMG{
+    width: 70px;
+    height: 70px;
+    border-radius: 100px;
+    
+}
+
 #homeh1 {
     padding-left: 10px;
     color: white;
+    padding-right: 10px;
 }
 
 header nav {

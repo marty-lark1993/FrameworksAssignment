@@ -32,6 +32,10 @@
             <label for="email" class="loginlabel">Email</label>
             <input type="text" class="logininput" [(ngModel)]="email" placeholder="email" name="email" required>
         </div>
+        <div class="logindiv">
+            <label for="avatar" class="loginlabel">Avatar</label>
+            <input type="file" name="avatar" class="logininput" placeholder="Avatar" accept="image/" (change)="onFileSelected($event)">
+        </div>
         <button id="loginBTN" [disabled]="!signupform.valid" type="submit">Signup</button>
         <p id="signup" (click)="backToLogin()">Cancel and back to login page</p>
     </form>

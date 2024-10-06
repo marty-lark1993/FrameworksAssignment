@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
     password:{type:String, required:true},
     roles:{type:String, default:'user'},
     email: {type:String, required:true, unique:true},
-    groups:[{type:mongoose.Schema.Types.ObjectId, ref:'Group'}]
+    groups:[{type:mongoose.Schema.Types.ObjectId, ref:'Group'}],
+    avatar:{type:String}
 })
 
 const User = mongoose.model('User', userSchema)

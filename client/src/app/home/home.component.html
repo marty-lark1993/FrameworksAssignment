@@ -1,5 +1,8 @@
 <header>
+    <div class="headerAvatar">
     <h1 id="homeh1">Welcome {{user.username}}</h1>
+    <img src="http://localhost:3000/{{user.avatar.replace('\\', '/') }}" alt="User avatar" *ngIf="user.avatar" class="avatarIMG">
+    </div>
     <nav>
         <ul>
             <li (click)="logout()">Logout</li>
