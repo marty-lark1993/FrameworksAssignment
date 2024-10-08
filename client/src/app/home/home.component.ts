@@ -314,29 +314,42 @@ export class HomeComponent {
     this.joinChannel(channelID)
   }
 
-  // socket code
-  // send message
-  // sendMessage(channelId:string, message:any){
-  //   console.log(message, channelId)
-  //   this.socketService.sendMessage(channelId, message)
-  //   this.message=""
-
-  // }
-    // Send message to the current channel
     sendMessage(channelId: string, message: string) {
       if (message.trim()) {
-        console.log(`Sending message: ${message} to channel: ${channelId}`);
-        this.socketService.sendMessage({ text: message, userId: this.user.userID, channelId });
-        this.message = ""; // Clear the input field after sending
-        console.log(this.messages)
+        const messageData = { text: message, userId: this.user.userID, channelId };
+        this.socketService.sendMessage(messageData).subscribe(
+          (savedMessage) => {
+            console.log('Message saved:', savedMessage, message);
+            this.messages.push(savedMessage)
+            this.message = ""; // Clear the input field after sending
+            this.joinChannel(channelId)
+          },
+          (error) => {
+            console.error('Error saving message:', error);
+          }
+        );
       }
     }
-  
 
-  //join channel
-  joinChannel(channelId:string){
-    console.log("joining channel: ", channelId)
-    this.socketService.joinChannel(channelId)
+  // //join channel
+  // joinChannel(channelId:string){
+  //   console.log("joining channel: ", channelId)
+  //   this.socketService.joinChannel(channelId)
+  // }
+  joinChannel(channelId: string) {
+    this.socketService.joinChannel(channelId);
+    this.socketService.getChannelMessages(channelId).subscribe(
+      (messages) => {
+        this.messages = messages;
+        // Now listen for new messages
+        this.socketService.onMessage().subscribe(newMessage => {
+          this.messages.push(newMessage);
+        });
+      },
+      (error) => {
+        console.error('Error fetching messages:', error);
+      }
+    );
   }
 
 }

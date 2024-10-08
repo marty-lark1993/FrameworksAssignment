@@ -2,6 +2,7 @@
 const User = require('./data/user')
 const Group = require('./data/group')
 const Channel = require('./data/channel');
+const Message = require('./data/messages')
 const { application } = require('express');
 
 // creates new group
@@ -229,4 +230,41 @@ const UpgradeToAdmin = async (req, res)=>{
     }
   }
 
-module.exports = {CreateGroup, GetGroup, GetUsers, DeleteUser, CreateChannel, DeleteChannel, GetAvailableGroups, RequestGroupAccess, ApproveOrDenyGroupAccess, DeleteGroup, UpgradeToAdmin}
+  const CreateMessage = async (req, res)=>{
+    try{
+        const{text, userId, channelId} = req.body;
+        // Find the user to get their avatar
+        const user = await User.findById(userId).select('username avatar'); // Include 'avatar' and 'username'
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const newMessage = new Message({text, userId, channelId});
+        await newMessage.save()
+
+        await Channel.findByIdAndUpdate(
+            channelId,
+            { $push: { messages: newMessage._id } }
+          );
+
+          
+      
+          res.status(201).json(newMessage);
+        } catch (error) {
+          res.status(500).json({ message: 'Error saving message', error });
+        }
+  }
+
+  const MessagesChannelID = async (req, res) => {
+    try {
+        console.log(req.params.channelId)
+        const messages = await Message.find({ channelId: req.params.channelId })
+          .sort({ createdAt: 1 })
+          .limit(50); // Limit to last 50 messages, adjust as needed
+        res.json(messages);
+      } catch (error) {
+        res.status(500).json({ message: 'Error retrieving messages', error });
+      }
+  }
+
+module.exports = {CreateGroup, GetGroup, GetUsers, DeleteUser, CreateChannel, DeleteChannel, GetAvailableGroups, RequestGroupAccess, ApproveOrDenyGroupAccess, DeleteGroup, UpgradeToAdmin, CreateMessage, MessagesChannelID}
