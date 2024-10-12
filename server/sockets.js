@@ -19,7 +19,7 @@ const setupSocketIO = (server) => {
 
         socket.on("sendMessage", (message) => {
             const { channelId, text, userId } = message;
-            io.to(channelId).emit("receiveMessage", { text, userId });
+            io.to(message.channelId).emit("receiveMessage", { text, userId });
         });
 
         socket.on("disconnect", () => {

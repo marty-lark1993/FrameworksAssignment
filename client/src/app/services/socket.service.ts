@@ -14,14 +14,6 @@ export class SocketService {
     this.socket = io(this.uri);
   }
 
-  // Emit a message to the server
-  // sendMessage(channelId: string, text: string) {
-  //   const message = {
-  //     channelId,
-  //     text
-  //   };
-  //   this.socket.emit('sendMessage', message);
-  // }
 
   sendMessage(message: { text: string; userId: string; channelId: string }) {
     console.log(`Sending message to channel: ${message.channelId}`, message);
