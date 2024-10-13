@@ -8,7 +8,7 @@
     "start": "node server/server.js",
     "dev": "nodemon server/server.js",
     "unitTest": "mocha ./server/unitTest/test.mjs",
-    "intTest": "mocha ./server/integrationTest/test.js"
+    "intTest": "mocha ./server/integrationTest/test.mjs"
   },
   "repository": {
     "type": "git",
