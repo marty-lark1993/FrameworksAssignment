@@ -34,9 +34,8 @@
     <div id="chat">
         <h3 class="heading3">Chat</h3>
         <div class="chatMessages">
-            <div *ngFor="let msg of messages">
-                <img src="http://localhost:3000/{{msg.avatar?.replace('\\', '/')}}" alt="User avatar" *ngIf="msg.avatar" class="avatarIMG">
-              <strong>{{msg.userId}}:</strong> {{msg.text}}
+            <div *ngFor="let msg of messages" class="indMessage">
+              <strong>{{msg.userId}}:</strong> <p>{{msg.text}}</p>
             </div>
           </div>
         <div class="chatfunctionality">
