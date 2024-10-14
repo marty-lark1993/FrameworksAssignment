@@ -10,7 +10,11 @@ const authRoutes = require('./routes/auth')
 const appRoutes = require('./routes/app')
 const path = require("path")
 const setupSocketIO = require("./sockets")
+const {PeerServer} = require("peer")
 
+
+// Set up PeerServer for WebRTC connections
+const peerServer = PeerServer({ port: 3001, path: '/peerjs', secure: true });
 // set up 
 app.use(cors({
   origin:'http://localhost:4200',
@@ -44,3 +48,12 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // set up socketIO
 setupSocketIO(server)
+
+// Attach the Peer.js server to handle WebRTC connections
+peerServer.on('connection', (client) => {
+  console.log('New peer connected:', client.id);
+});
+
+peerServer.on('disconnect', (client) => {
+  console.log('Peer disconnected:', client.id);
+});

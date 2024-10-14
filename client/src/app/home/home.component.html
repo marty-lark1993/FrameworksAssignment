@@ -40,6 +40,7 @@
             </div>
           </div>
         <div class="chatfunctionality">
+            <button (click)="goToVideo()">Go to Video Chat</button>
             <textarea [(ngModel)]="message" placeholder="type your message here" name="ChatArea" id="ChatArea"></textarea>
             <button (click)="sendMessage(setCurrentChannelID, message)">Send</button>
         </div>

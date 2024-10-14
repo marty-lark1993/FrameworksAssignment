@@ -352,4 +352,8 @@ export class HomeComponent {
     );
   }
 
+  goToVideo(){
+    this.router.navigate(['/videos'])
+  }
+
 }

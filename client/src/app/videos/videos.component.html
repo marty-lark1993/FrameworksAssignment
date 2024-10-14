@@ -1,0 +1,16 @@
+<div class="video-container">
+    <h2>Video Chat</h2>
+  
+    <!-- Local video -->
+    <video #myVideo autoplay muted></video>
+  
+    <!-- Remote video -->
+    <video #remoteVideo autoplay></video>
+  
+    <!-- Input to enter the Peer ID -->
+    <input #peerIdInput type="text" placeholder="Enter Peer ID" />
+  
+    <!-- Button to initiate the call -->
+    <button (click)="startCall(peerIdInput.value)">Start Call</button>
+    <button (click)="endCall()">End Call</button>
+  </div>
